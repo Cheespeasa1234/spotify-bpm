@@ -1,3 +1,4 @@
+# Install required packages
 from flask import Flask, redirect, request, session, jsonify, render_template
 import requests
 import os
@@ -6,11 +7,12 @@ import json
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 
-load_dotenv()
-
+# Setup the flask server
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
+# Get environment secrets
+load_dotenv()
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 REDIRECT_URI = os.getenv("REDIRECT_URI")
@@ -62,7 +64,6 @@ def currently_playing():
     return render_template("currently_playing.html", song=song.dumps())
 
 class Song:
-
     playing: bool = False
     artist: str = ""
     name: str = ""

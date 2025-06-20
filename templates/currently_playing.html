@@ -8,7 +8,7 @@
 <body>
     <h1 id="title"></h1>
     <p><a id="link" target="_blank"></a></p>
-    <p id="info">BPM or Info</p>
+    <p id="info"></p>
 
     <div class="chroma-bg">
         <img id="danceGif" src="" alt="Eevee Dancing">
@@ -59,7 +59,7 @@
     } else {
         danceGifElement.src = `/static/vaporeon.webp`;
         titleElement.innerText = `Not Playing`;
-        // linkElement.href = song.url;
+        document.title = "Not Playing";
         displayElement.innerText = `Reload the page when you resume playback.`;
     }
 
