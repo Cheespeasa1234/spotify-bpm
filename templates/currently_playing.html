@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Not Playing</title>
+</head>
+
+<body>
+    <h1 id="title"></h1>
+    <p><a id="link" target="_blank"></a></p>
+    <p id="info">BPM or Info</p>
+
+    <div class="chroma-bg">
+        <img id="danceGif" src="" alt="Eevee Dancing">
+    </div>
+</body>
+
+<style>
+    .chroma-bg {
+        background-color: rgba(0, 255, 0, 255);
+        width: fit-content;
+        height: fit-content;
+        padding: 20px;
+    }
+</style>
+
+<script defer>
+
+    const danceGifElement = document.getElementById("danceGif");
+    const titleElement = document.getElementById("title");
+    const linkElement = document.getElementById("link");
+    const displayElement = document.getElementById("info");
+
+    const song = JSON.parse({{ song | tojson }});
+
+    if (song.playing) {
+        const minBpm = 60;
+        const maxBpm = 240;
+    
+        function normalizeBPM(bpm) {
+            while (bpm < minBpm) bpm *= 2;
+            while (bpm > maxBpm) bpm = Math.round(bpm / 2);
+            return bpm;
+        }
+    
+        const finalBpm = normalizeBPM(song.bpm);
+            
+        danceGifElement.src = `/static/dance/${finalBpm}bpm.gif`;
+        titleElement.innerText = `${song.name} • ${song.artist}`;
+        document.title = `${song.name} • ${song.artist}`;
+        linkElement.href = song.url;
+        displayElement.innerText = `BPM: ${song.bpm} -- Duration: ${song.duration_ms / 1000}s`;
+
+        const remaining = song.duration_ms - song.progress_ms;
+        console.log(remaining / 1000, "seconds");
+        setTimeout(() => {
+            window.location.reload()
+        }, remaining + 500);
+    } else {
+        danceGifElement.src = `/static/vaporeon.webp`;
+        titleElement.innerText = `Not Playing`;
+        // linkElement.href = song.url;
+        displayElement.innerText = `Reload the page when you resume playback.`;
+    }
+
+</script>
+
+
+</html>
